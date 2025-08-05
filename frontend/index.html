@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Coleção</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-100 font-sans">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="mb-8">
+            <h1 class="text-4xl font-bold text-gray-800">📚 Minha Coleção de Livros e Gibis</h1>
+            <p class="text-gray-600">Gerencie seus itens de forma fácil e rápida.</p>
+        </header>
+
+        <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Coluna do Formulário de Adicionar/Editar -->
+            <div class="lg:col-span-1 bg-white p-6 rounded-lg shadow-md h-fit">
+                <h2 id="form-title" class="text-2xl font-semibold mb-4 text-gray-700">Adicionar Novo Item</h2>
+                <form id="item-form" class="space-y-4">
+                    <input type="hidden" id="item-id">
+                    <div id="form-message" class="hidden p-3 text-sm rounded-lg" role="alert"></div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600 mb-1">Tipo</label>
+                        <select id="tipo" required class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="livro">Livro</option>
+                            <option value="gibi">Gibi</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="titulo_portugues" class="block text-sm font-medium text-gray-600 mb-1">Título em Português</label>
+                        <input type="text" id="titulo_portugues" required class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <!-- ATUALIZADO: Campo adicionado -->
+                    <div>
+                        <label for="titulo_original" class="block text-sm font-medium text-gray-600 mb-1">Título Original</label>
+                        <input type="text" id="titulo_original" class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label for="autor" class="block text-sm font-medium text-gray-600 mb-1">Autor</label>
+                        <input type="text" id="autor" class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div id="desenhista-field">
+                        <label for="desenhista" class="block text-sm font-medium text-gray-600 mb-1">Desenhista</label>
+                        <input type="text" id="desenhista" class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label for="editora" class="block text-sm font-medium text-gray-600 mb-1">Editora</label>
+                        <input type="text" id="editora" class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="ano" class="block text-sm font-medium text-gray-600 mb-1">Ano</label>
+                            <input type="number" id="ano" class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label for="edicao" class="block text-sm font-medium text-gray-600 mb-1">Edição</label>
+                            <input type="text" id="edicao" class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                    </div>
+                    <!-- ATUALIZADO: Campo adicionado -->
+                    <div>
+                        <label for="isbn" class="block text-sm font-medium text-gray-600 mb-1">ISBN</label>
+                        <input type="text" id="isbn" class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <!-- ATUALIZADO: Campo adicionado -->
+                    <div>
+                        <label for="idioma" class="block text-sm font-medium text-gray-600 mb-1">Idioma</label>
+                        <input type="text" id="idioma" class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div class="flex space-x-2 pt-2">
+                        <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300">Salvar</button>
+                        <button type="button" id="cancel-btn" class="w-full bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 transition duration-300 hidden">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Coluna da Lista de Itens -->
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-semibold mb-4 text-gray-700">Buscar Itens</h2>
+                    <form id="filter-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="text" id="filter-titulo_portugues" placeholder="Título em Português" class="p-2 border border-gray-300 rounded-md">
+                        <input type="text" id="filter-autor" placeholder="Autor" class="p-2 border border-gray-300 rounded-md">
+                        <input type="number" id="filter-ano" placeholder="Ano" class="p-2 border border-gray-300 rounded-md">
+                        <select id="filter-tipo" class="p-2 border border-gray-300 rounded-md">
+                            <option value="">Todos os Tipos</option>
+                            <option value="livro">Livro</option>
+                            <option value="gibi">Gibi</option>
+                        </select>
+                        <select id="filter-sortby" class="p-2 border border-gray-300 rounded-md">
+                            <option value="title_asc">Ordem: Título (A-Z)</option>
+                            <option value="title_desc">Ordem: Título (Z-A)</option>
+                            <option value="year_desc">Ordem: Ano (Mais Recente)</option>
+                            <option value="year_asc">Ordem: Ano (Mais Antigo)</option>
+                        </select>
+                        <div class="flex space-x-2 md:col-span-2">
+                            <button type="submit" class="flex-1 bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition">Filtrar</button>
+                            <button type="button" id="clear-filters-btn" class="flex-1 bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 transition">Limpar Filtros</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-2xl font-semibold text-gray-700">Itens Cadastrados</h2>
+                        <span id="item-count" class="text-sm text-gray-500"></span>
+                    </div>
+                    <div id="loading" class="flex justify-center items-center h-40">
+                        <div class="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-24 w-24"></div>
+                    </div>
+                    <div id="items-list" class="space-y-3 hidden"></div>
+                    <p id="empty-message" class="text-center text-gray-500 mt-8 hidden">Nenhum item encontrado.</p>
+                    <div id="pagination-controls" class="flex justify-center items-center space-x-1 mt-6"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="script.js" defer></script>
+</body>
+</html>
